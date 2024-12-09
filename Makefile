@@ -1,6 +1,8 @@
+.PHONY: build
+
 build:
-	mkdir build || true
-	cd build && cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+	mkdir -p build || true
+	cd build && cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 	cmake --build ./build --target raylib-video-player-shader -j 10 --
 	cd -
 

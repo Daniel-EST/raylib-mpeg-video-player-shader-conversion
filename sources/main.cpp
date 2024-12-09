@@ -125,13 +125,13 @@ int main() {
           if (plm_get_num_audio_streams(plm) > 0) {
             plm_set_audio_enabled(plm, true);
 
-            SetAudioStreamBufferSizeDefault(1152);
+            SetAudioStreamBufferSizeDefault(PLM_AUDIO_SAMPLES_PER_FRAME);
             stream = LoadAudioStream(samplerate, 32, 2);
 
             PlayAudioStream(stream);
-            plm_set_audio_lead_time(
-                plm, static_cast<double>(PLM_AUDIO_SAMPLES_PER_FRAME) /
-                         static_cast<double>(samplerate));
+            // plm_set_audio_lead_time(
+            //     plm, static_cast<double>(PLM_AUDIO_SAMPLES_PER_FRAME) /
+            //                              static_cast<double>(samplerate));
           }
         }
       }
@@ -163,11 +163,11 @@ int main() {
         frame = plm_decode_video(plm);
         currentVideoFrame++;
 
-        // if (timeExcess >= 0.040) {
-        //   frame = plm_decode_video(plm);
-        //   currentVideoFrame++;
-        //   timeExcess = 0;
-        // }
+        if (timeExcess >= 0.040) {
+          frame = plm_decode_video(plm);
+          currentVideoFrame++;
+          timeExcess = 0;
+        }
 
         if (frame) {
           UpdateTexture(textureY, frame->y.data);
